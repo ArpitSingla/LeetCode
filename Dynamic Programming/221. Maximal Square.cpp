@@ -16,6 +16,8 @@ public:
 				}
 
 				ans=max(ans,dp[i][j]*dp[i][j]);
-
 			}
 		}
+		return ans;
+	}
+};

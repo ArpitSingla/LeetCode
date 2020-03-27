@@ -1,23 +1,21 @@
 class Solution {
 public:
-  int maximalSquare(vector<vector<char>>& matrix) {
-    if (matrix.empty()) 
-      return 0; 
-    int mLen = matrix.size();
-    int nLen = matrix[0].size();
-    int mSeq = 0;
-    int tSeq = 0;
-    vector<vector<int>> seq(mLen+1, vector<int>(nLen+1, 0));
-    for (int i = mLen-1; i >= 0; --i) for (int j = nLen-1; j >= 0; --j) {
-      if (matrix[i][j] == '0') {
-        seq[i][j] = 0;
-      } else {
-        tSeq = min(seq[i+1][j], seq[i][j+1]);
-        tSeq = min(seq[i+1][j+1], tSeq);
-        seq[i][j] = tSeq + 1;
-      }
-      mSeq = max(mSeq, seq[i][j]);
-    }
-    return mSeq * mSeq;
-  }
-};
+	int maximalSquare(vector<vector<char>>& matrix) {
+		if(matrix.size()==0) return 0;
+		int m=matrix.size();
+		int n=matrix[0].size();
+		vector<vector<int>> dp(m,vector<int>(n));
+		int ans=0;
+		for(int i=0;i<m;i++){
+			for(int j=0;j<n;j++){
+				dp[i][j]=matrix[i][j]-'0';
+				if(dp[i][j]==0) continue;
+				if(i==0 || j==0){}
+				else{
+					dp[i][j]=min(dp[i-1][j-1],min(dp[i-1][j],dp[i][j-1]))+1;
+				}
+
+				ans=max(ans,dp[i][j]*dp[i][j]);
+
+			}
+		}

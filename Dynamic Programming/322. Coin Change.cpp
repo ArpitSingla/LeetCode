@@ -1,27 +1,27 @@
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        sort(coins.begin(), coins.end());
-        reverse(coins.begin(), coins.end());
-        int n = coins.size();
-        vector<int> dp(amount + 1, -1);
-        for (int i = 0; i < n; ++i) {
-            if (i == 0) {
-                for (int amt = 0; amt <= amount; amt += coins[0]) {
-                    dp[amt] = amt / coins[0];
-                }
-                continue;
-            }
-            // dp[i][amt] = min(dp[i][amt - curr] + 1, dp[i - 1][amt]).
-            int curr = coins[i];
-            for (int amt = 0; amt <= amount; ++amt) {
-                if (amt >= curr && dp[amt - curr] >= 0) {
-                    if (dp[amt] < 0) dp[amt] = dp[amt - curr] + 1;
-                    else {
-                        dp[amt] = min(dp[amt], dp[amt - curr] + 1);
+        int n=coins.size();
+        if(n==0){
+            return -1;
+        }
+        vector<int> dp(amount+1,INT_MAX);
+        sort(coins.begin(),coins.end());
+        dp[0]=0;
+        for(int i=1;i<=amount;i++){
+            for(int j=0;j<n;j++){
+                if(coins[j]<=i){
+                    if(dp[i-coins[j]]!=INT_MAX){
+                        dp[i]=min(dp[i],dp[i-coins[j]]+1);
                     }
                 }
+                else{
+                    break;
+                }
             }
+        }
+        if(dp[amount]==INT_MAX){
+            return -1;
         }
         return dp[amount];
     }

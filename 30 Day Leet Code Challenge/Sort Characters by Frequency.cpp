@@ -1,3 +1,6 @@
+//why we use static for custom comparators//
+//https://leetcode.com/discuss/general-discussion/547798/Static-Comparator-function-for-sort-(Reasons-as-to-why)//
+
 class Solution {
 public:
     static bool comp(pair<char,int> &a,pair<char,int> &b){

@@ -22,4 +22,27 @@ public:
         int best=*max_element(dp,dp+n);
         return best;
     }
+    
+};
+// Nlogn using Binary Search
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        if(n==0){
+            return 0;
+        }
+        vector<int> ans;
+        ans.push_back(nums[0]);
+        for(int i=1;i<n;i++){
+            if(ans.back()<nums[i]){
+                ans.push_back(nums[i]);
+            }
+            else{
+                int index=lower_bound(begin(ans),end(ans),nums[i])-begin(ans);
+                ans[index]=nums[i];
+            }
+        }
+        return ans.size();
+    }
 };

@@ -5,28 +5,29 @@ public:
         if(n==0){
             return 0;
         }
-        int sum=accumulate(stones.begin(),stones.end(),0);
+        int sumo=accumulate(stones.begin(),stones.end(),0);
+        int sum=sumo/2;
         vector<vector<bool>> dp(n+1,vector<bool>(sum+1,false));
         for(int i=0;i<=n;i++){
             dp[i][0]=true;
         }
         for(int i=1;i<=n;i++){
             for(int j=1;j<=sum;j++){
-                dp[i][j]=dp[i-1][j];
-                if(stones[i-1]<=j){
-                    dp[i][j]=dp[i][j]||dp[i-1][j-stones[i-1]];
+                if(j>=stones[i-1]){
+                    dp[i][j]=dp[i-1][j]||dp[i-1][j-stones[i-1]];
+                }
+                else{
+                    dp[i][j]=dp[i-1][j];
                 }
             }
         }
-        cout<<sum<<endl;
-        int ans=0;
-        for(int i=sum/2;i>=0;i--){
-            if(dp[n][i]==1){
-                ans=sum-2*i;
-                cout<<i<<endl;
+        int temp;
+        for(int i=sum;i>0;i--){
+            if(dp[n][i]==true){
+                temp=i;
                 break;
             }
         }
-        return ans;
+        return sumo-2*temp;
     }
 };

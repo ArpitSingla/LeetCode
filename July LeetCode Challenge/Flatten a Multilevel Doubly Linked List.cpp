@@ -1,3 +1,37 @@
+// My Recursive solution (Knowledge Centre)
+Node *solve(Node *head){
+    Node *curr=head,*tail=head;
+    while(curr){
+        Node *child=curr->child;
+        Node *next=curr->next;
+        if(child){
+            Node *_tail=solve(child);
+            _tail->next=next;
+            if(next){
+                next->prev=_tail;
+            }
+            curr->next=child;
+            child->prev=curr;
+            curr->child=NULL;
+            curr=tail;
+        }
+        else{
+            curr=next;
+        }
+        if(curr!=NULL){
+            tail=curr;            
+        }
+    }
+    return tail;
+}
+Node* flatten(Node* head) {
+    if(head){
+        solve(head);
+    }
+    return head;
+}
+
+// Iterative solution (Fast solution)
 Node* flatten(Node* head) {
 	for (Node* h = head; h; h = h->next)
 	{
@@ -15,7 +49,7 @@ Node* flatten(Node* head) {
 	}
 	return head;
 }
-//Recursive
+//Recursive New Type
 Node* flatten(Node* head, Node* rest = nullptr) {
   if (!head) return rest;
   head->next = flatten(head->child, flatten(head->next, rest));
